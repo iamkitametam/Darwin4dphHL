@@ -4,6 +4,7 @@ tic;
 % profile on;
 
 %% initials
+some crap code i put here to test github commits;
 
 get_parameters;
 initialization; initial_state;
