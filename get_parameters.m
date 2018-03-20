@@ -8,7 +8,7 @@ Ne = 10^4; me = 1; qe = -1; ve = 0.1; Te = 1;
 Ni = Ne; mi = 400; qi = 1; vi = ve/sqrt(mi*Te); n0  = Ni/L;
 
 %% external fields
-pivchik
+
 ex_ext = zeros(Nt,Nx+1); by_ext = zeros(Nt,Nx+1); bz_ext = zeros(Nt,Nx+1);
 for i=1:Nt
 %     ex_ext(i,:) = 0.0316*sin(200*pi*i/Nt);
