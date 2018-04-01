@@ -44,25 +44,43 @@ end
 if(phase_flag)
     figure('Name','Phase Plane','units','normalized','outerposition',[.0 .0 1 1]);
     clf;
-    for i=1:10:Nt
+    for i=1:Nt
        
-       subplot(1,2,1);
+       subplot(2,2,1);
        plot(e_x(i,:),e_vx(i,:),'.');
        grid on; grid minor;
        xlabel('x');
        ylabel('vx');
        xlim([0 L]);
-       ylim([-100*ve 100*ve]);
-       title("Electron " + num2str(i*tau));
+       ylim([-10*ve 10*ve]);
+       title("Electron vx " + num2str(i*tau));
        
-       subplot(1,2,2);
+       subplot(2,2,2);
        plot(i_x(i,:),i_vx(i,:),'.');
        grid on; grid minor;
        xlabel('x');
        ylabel('vx');
        xlim([0 L]);
        ylim([-10*vi 10*vi]);
-       title("Ion " + num2str(i*tau));
+       title("Ion vx " + num2str(i*tau));
+       
+       subplot(2,2,3);
+       plot(e_x(i,:),e_vy(i,:),'.');
+       grid on; grid minor;
+       xlabel('x');
+       ylabel('vx');
+       xlim([0 L]);
+       ylim([-10*ve 10*ve]);
+       title("Electron vy " + num2str(i*tau));
+       
+       subplot(2,2,4);
+       plot(i_x(i,:),i_vy(i,:),'.');
+       grid on; grid minor;
+       xlabel('x');
+       ylabel('vx');
+       xlim([0 L]);
+       ylim([-10*vi 10*vi]);
+       title("Ion vy " + num2str(i*tau));
        
        pause(1/Nt);
     end

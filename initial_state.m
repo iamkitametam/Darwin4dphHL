@@ -37,14 +37,14 @@ if(twostream)
     e_py(1,:) = me*e_vy(1,:);
     e_pz(1,:) = me*e_vz(1,:);
     
-    e_vx(1,1:Ne/2) = abs(e_vx(1,1:Ne/2)) + 10*ve;
+    e_vx(1,1:Ne/2) = abs(e_vx(1,1:Ne/2)) + 3*ve;
 end
 
 %% Weibel instability STATE
 
 if(weibel)
    
-    A0 = 9;
+    A0 = 24;
     
     % ions
     i_x(1,:) = rand(1,Ni)*L;

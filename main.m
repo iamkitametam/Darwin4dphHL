@@ -1,10 +1,10 @@
 %% prepare
 close all; clear all; clc; warning('off','all');
 tic;
+
 % profile on;
 
 %% initials
-some crap code i put here to test github commits;
 
 get_parameters;
 initialization; initial_state;
@@ -12,7 +12,6 @@ initialization; initial_state;
 %% time loop
 
 for t = 1:Nt
-% t=1;
 
 %% pic func optimization
 
