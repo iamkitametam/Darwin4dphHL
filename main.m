@@ -15,14 +15,14 @@ for t = 1:Nt
 
 %% pic func optimization
 
-pic_e_x = pic_fast(e_x(t,:),L,Nx);
-pic_i_x = pic_fast(i_x(t,:),L,Nx);
-pic_e_vx = pic_fast(e_x(t,:),L,Nx,e_vx(t,:));
-pic_i_vx = pic_fast(i_x(t,:),L,Nx,i_vx(t,:));
-pic_e_vy = pic_fast(e_x(t,:),L,Nx,e_vy(t,:));
-pic_i_vy = pic_fast(i_x(t,:),L,Nx,i_vy(t,:));
-pic_e_vz = pic_fast(e_x(t,:),L,Nx,e_vz(t,:));
-pic_i_vz = pic_fast(i_x(t,:),L,Nx,i_vz(t,:));
+pic_e_x = pic_fast(e_x(1,:),L,Nx);
+pic_i_x = pic_fast(i_x(1,:),L,Nx);
+pic_e_vx = pic_fast(e_x(1,:),L,Nx,e_vx(1,:));
+pic_i_vx = pic_fast(i_x(1,:),L,Nx,i_vx(1,:));
+pic_e_vy = pic_fast(e_x(1,:),L,Nx,e_vy(1,:));
+pic_i_vy = pic_fast(i_x(1,:),L,Nx,i_vy(1,:));
+pic_e_vz = pic_fast(e_x(1,:),L,Nx,e_vz(1,:));
+pic_i_vz = pic_fast(i_x(1,:),L,Nx,i_vz(1,:));
 
 %% calc rho and j
 
@@ -67,24 +67,24 @@ dphi_z(t,:) = jz(t,:);
 
 %% calc mean canonical impulse
 
-py(t,:) = mi*(pic_i_vy) + me*pic_e_vy;
-py(t,:) = py(t,:)/Ne;
+py(1,:) = mi*(pic_i_vy) + me*pic_e_vy;
+py(1,:) = py(1,:)/Ne;
 
-pz(t,:) = mi*(pic_i_vz) + me*pic_e_vz;
-pz(t,:) = pz(t,:)/Ne;
+pz(1,:) = mi*(pic_i_vz) + me*pic_e_vz;
+pz(1,:) = pz(1,:)/Ne;
 
 if(t>1)
-    py(t,:) = py(t,:) + qi*pic_i_x'.*ay(t-1,:)/Ni;
-    py(t,:) = py(t,:) + qe*pic_e_x'.*ay(t-1,:)/Ne;
+    py(1,:) = py(1,:) + qi*pic_i_x'.*ay(t-1,:)/Ni;
+    py(1,:) = py(1,:) + qe*pic_e_x'.*ay(t-1,:)/Ne;
     
-    pz(t,:) = pz(t,:) + qi*pic_i_x'.*az(t-1,:)/Ni;
-    pz(t,:) = pz(t,:) + qe*pic_e_x'.*az(t-1,:)/Ne;
+    pz(1,:) = pz(1,:) + qi*pic_i_x'.*az(t-1,:)/Ni;
+    pz(1,:) = pz(1,:) + qe*pic_e_x'.*az(t-1,:)/Ne;
 end
 
 %% calculate fy
 
-fy(t,:) = 4*pi*(qi/mi*pic_i_x + qe/me*pic_e_x)'.*py(t,:)/Ne - dphi_y(t,:);
-fz(t,:) = 4*pi*(qi/mi*pic_i_x + qe/me*pic_e_x)'.*pz(t,:)/Ne - dphi_z(t,:);
+fy(t,:) = 4*pi*(qi/mi*pic_i_x + qe/me*pic_e_x)'.*py(1,:)/Ne - dphi_y(t,:);
+fz(t,:) = 4*pi*(qi/mi*pic_i_x + qe/me*pic_e_x)'.*pz(1,:)/Ne - dphi_z(t,:);
 
 %% calculate ay az
 
@@ -110,34 +110,66 @@ if(magn_off)
 end
 
 %% calculate dynamics
+
 % effective fields for electrons
 [ex_eff, ay_eff, az_eff, by_eff, bz_eff] = ...
-    dynamics(e_x(t,:), ex(t,:), ay(t,:), az(t,:),  by(t,:), bz(t,:), L, Nx);
+    dynamics(e_x(1,:), ex(t,:), ay(t,:), az(t,:),  by(t,:), bz(t,:), L, Nx);
 % VY and VZ for electrons
-e_py(t+1,:) = e_py(t,:) + qe*tau/me*e_vx(t,:).*bz_eff;
-e_pz(t+1,:) = e_pz(t,:) + qe*tau/me*e_vx(t,:).*by_eff;
-e_vy(t+1,:) =  1/me*(e_py(t+1,:) - qe*ay_eff);
-e_vz(t+1,:) =  1/me*(e_pz(t+1,:) - qe*az_eff);
+e_py(2,:) = e_py(1,:) + qe*tau/me*e_vx(1,:).*bz_eff;
+e_pz(2,:) = e_pz(1,:) + qe*tau/me*e_vx(1,:).*by_eff;
+e_vy(2,:) =  1/me*(e_py(2,:) - qe*ay_eff);
+e_vz(2,:) =  1/me*(e_pz(2,:) - qe*az_eff);
 
 % VX and X for electrons
-e_vx(t+1,:) = e_vx(t,:) + qe*tau/me*(ex_eff + (e_vy(t+1,:).*bz_eff - e_vz(t+1,:).*by_eff));
-e_x(t+1,:) = e_x(t,:) + tau*e_vx(t+1,:);
-[e_x(t+1,:), e_vx(t+1,:)] = bc(e_x(t+1,:), e_vx(t+1,:),L,dyn_bc_flag);
+e_vx(2,:) = e_vx(1,:) + qe*tau/me*(ex_eff + (e_vy(2,:).*bz_eff - e_vz(2,:).*by_eff));
+e_x(2,:) = e_x(1,:) + tau*e_vx(2,:);
+[e_x(2,:), e_vx(2,:)] = bc(e_x(2,:), e_vx(2,:),L,dyn_bc_flag);
 
 % effective fields for ions
 [ex_eff, ay_eff, az_eff, by_eff, bz_eff] = ...
-    dynamics(i_x(t,:), ex(t,:), ay(t,:), az(t,:), by(t,:), bz(t,:), L, Nx);
+    dynamics(i_x(1,:), ex(t,:), ay(t,:), az(t,:), by(t,:), bz(t,:), L, Nx);
 
 % VY and VZ for ions
-i_py(t+1,:) = i_py(t,:) + qi*tau/mi*i_vx(t,:).*bz_eff;
-i_pz(t+1,:) = i_pz(t,:) + qi*tau/mi*i_vx(t,:).*by_eff;
-i_vy(t+1,:) =  1/mi*(i_py(t+1,:) - qi*ay_eff);
-i_vz(t+1,:) =  1/mi*(i_pz(t+1,:) - qi*az_eff);
+i_py(2,:) = i_py(1,:) + qi*tau/mi*i_vx(1,:).*bz_eff;
+i_pz(2,:) = i_pz(1,:) + qi*tau/mi*i_vx(1,:).*by_eff;
+i_vy(2,:) =  1/mi*(i_py(2,:) - qi*ay_eff);
+i_vz(2,:) =  1/mi*(i_pz(2,:) - qi*az_eff);
 
 % VX and X for ions
-i_vx(t+1,:) = i_vx(t,:) + qi*tau/mi*(ex_eff + (i_vy(t+1,:).*bz_eff - i_vz(t+1,:).*by_eff));
-i_x(t+1,:) = i_x(t,:) + tau*i_vx(t+1,:);
-[i_x(t+1,:), i_vx(t+1,:)] = bc(i_x(t+1,:), i_vx(t+1,:),L,dyn_bc_flag);
+i_vx(2,:) = i_vx(1,:) + qi*tau/mi*(ex_eff + (i_vy(2,:).*bz_eff - i_vz(2,:).*by_eff));
+i_x(2,:) = i_x(1,:) + tau*i_vx(2,:);
+[i_x(2,:), i_vx(2,:)] = bc(i_x(2,:), i_vx(2,:),L,dyn_bc_flag);
+
+%% duty ratio and loop ending
+
+if(mod(t,Q)==0)
+    
+    total_electrons_x(t/Q,:) = e_x(2,P:P:Ne);
+    total_electrons_vx(t/Q,:) = e_vx(2,P:P:Ne);
+    total_electrons_vy(t/Q,:) = e_vy(2,P:P:Ne);
+    total_electrons_vz(t/Q,:) = e_vz(2,P:P:Ne);
+    
+    total_ions_x(t/Q,:) = i_x(2,P:P:Ni);
+    total_ions_vx(t/Q,:) = i_vx(2,P:P:Ni);
+    total_ions_vy(t/Q,:) = i_vy(2,P:P:Ni);
+    total_ions_vz(t/Q,:) = i_vz(2,P:P:Ni);
+     
+end
+
+e_x(1,:) = e_x(2,:);
+e_vx(1,:) = e_vx(2,:);
+e_vy(1,:) = e_vy(2,:);
+e_vz(1,:) = e_vz(2,:);
+e_py(1,:) = e_py(2,:);
+e_pz(1,:) = e_pz(2,:);
+
+
+i_x(1,:) = i_x(2,:);
+i_vx(1,:) = i_vx(2,:);
+i_vy(1,:) = i_vy(2,:);
+i_vz(1,:) = i_vz(2,:);
+i_py(1,:) = i_py(2,:);
+i_pz(1,:) = i_pz(2,:);
 
 %% calculation parameters
 

@@ -1,40 +1,40 @@
 x_flag = 0;
-e_vx_flag = 0;
+total_electrons_vx_flag = 1;
 field_flag = 0;
-phase_flag = 1;
+phase_flag = 0;
 
 %% hist
 
 if(x_flag)
     figure('units','normalized','outerposition',[.0 .0 1 1]);
-    for i=1:Nt
+    for i=1:Nt/Q/Q
         clf;
         subplot(2,1,1);
-        hist(e_x(i,:),100);
+        hist(total_electrons_x(i,:),100);
         ylim([0 10*Ni/100]);
         grid on; grid minor;
-        title(strcat('electron x',32, num2str(tau*i),'/',num2str(T)));
+        title(strcat('electron x',32, num2str(tau*i*Q),'/',num2str(T)));
         
         subplot(2,1,2);
-        hist(i_x(i,:),100);
+        hist(total_ions_x(i,:),100);
         ylim([0 10*Ni/100]);
         grid on; grid minor;
-        title(strcat('ion x',32, num2str(tau*i),'/',num2str(T)));
+        title(strcat('ion x',32, num2str(tau*i*Q),'/',num2str(T)));
         
-        pause(1/Nt);
+        pause(1/(Nt/Q));
     end
 end
 
-if(e_vx_flag)
+if(total_electrons_vx_flag)
     
 figure('units','normalized','outerposition',[.0 .0 1 1]);
-for i=1:Nt
-   hist(e_vx(i,:),100);
-   xlim([-100*ve 100*ve]);
+for i=1:Nt/Q
+   hist(total_electrons_vx(i,:),100);
+   xlim([-10*ve 10*ve]);
    ylim([0 Ne/100*10])
    grid on; grid minor;
-   title(num2str(i*tau));
-   pause(1/Nt);
+   title(num2str(i*tau*Q));
+   pause(1/(Nt/Q));
 end
 
 end
@@ -44,45 +44,45 @@ end
 if(phase_flag)
     figure('Name','Phase Plane','units','normalized','outerposition',[.0 .0 1 1]);
     clf;
-    for i=1:Nt
+    for i=1:Nt/Q
        
        subplot(2,2,1);
-       plot(e_x(i,:),e_vx(i,:),'.');
+       plot(total_electrons_x(i,:),total_electrons_vx(i,:),'.');
        grid on; grid minor;
        xlabel('x');
        ylabel('vx');
        xlim([0 L]);
        ylim([-10*ve 10*ve]);
-       title("Electron vx " + num2str(i*tau));
+       title("Electron vx " + num2str(i*tau*Q));
        
        subplot(2,2,2);
-       plot(i_x(i,:),i_vx(i,:),'.');
+       plot(total_ions_x(i,:),total_ions_vx(i,:),'.');
        grid on; grid minor;
        xlabel('x');
        ylabel('vx');
        xlim([0 L]);
        ylim([-10*vi 10*vi]);
-       title("Ion vx " + num2str(i*tau));
+       title("Ion vx " + num2str(i*tau*Q));
        
        subplot(2,2,3);
-       plot(e_x(i,:),e_vy(i,:),'.');
+       plot(total_electrons_x(i,:),total_electrons_vy(i,:),'.');
        grid on; grid minor;
        xlabel('x');
        ylabel('vx');
        xlim([0 L]);
        ylim([-10*ve 10*ve]);
-       title("Electron vy " + num2str(i*tau));
+       title("Electron vy " + num2str(i*tau*Q));
        
        subplot(2,2,4);
-       plot(i_x(i,:),i_vy(i,:),'.');
+       plot(total_ions_x(i,:),total_ions_vy(i,:),'.');
        grid on; grid minor;
        xlabel('x');
        ylabel('vx');
        xlim([0 L]);
        ylim([-10*vi 10*vi]);
-       title("Ion vy " + num2str(i*tau));
+       title("Ion vy " + num2str(i*tau*Q));
        
-       pause(1/Nt);
+       pause(1/(Nt/Q));
     end
 end
 

@@ -1,9 +1,9 @@
 %% phase coordinates
 
-i_x = zeros(Nt,Ni); e_x = zeros(Nt,Ne);
-i_vx = zeros(Nt,Ni); e_vx = zeros(Nt,Ne);
-i_vy = zeros(Nt,Ni); e_vy = zeros(Nt,Ne); e_py = zeros(Nt,Ne); e_pz = zeros(Nt,Ne);
-i_vz = zeros(Nt,Ni); e_vz = zeros(Nt,Ne); i_py = zeros(Nt,Ni); i_pz = zeros(Nt,Ni);
+i_x = zeros(2,Ni); e_x = zeros(2,Ne);
+i_vx = zeros(2,Ni); e_vx = zeros(2,Ne);
+i_vy = zeros(2,Ni); e_vy = zeros(2,Ne); e_py = zeros(2,Ne); e_pz = zeros(2,Ne);
+i_vz = zeros(2,Ni); e_vz = zeros(2,Ne); i_py = zeros(2,Ni); i_pz = zeros(2,Ni);
 
 %% nodes
 
@@ -16,10 +16,10 @@ mu = zeros(Nt,Nx+1); fy = zeros(Nt,Nx+1); fz = zeros(Nt,Nx+1);
 
 %% results
 
-total_ions_x = zeros(Nt/Q,Ni); total_ions_vx = zeros(Nt/Q,Ni);
-total_ions_vy = zeros(Nt/Q,Ni); total_ions_vz = zeros(Nt/Q,Ni);
-total_electrons_x = zeros(Nt/Q,Ni); total_electrons_vx = zeros(Nt/Q,Ni);
-total_electrons_vy = zeros(Nt/Q,Ni); total_electrons_vz = zeros(Nt/Q,Ni);
+total_ions_x = zeros(Nt/Q,Ni/P); total_ions_vx = zeros(Nt/Q,Ni/P);
+total_ions_vy = zeros(Nt/Q,Ni/P); total_ions_vz = zeros(Nt/Q,Ni/P);
+total_electrons_x = zeros(Nt/Q,Ni/P); total_electrons_vx = zeros(Nt/Q,Ni/P);
+total_electrons_vy = zeros(Nt/Q,Ni/P); total_electrons_vz = zeros(Nt/Q,Ni/P);
 total_rho = zeros(Nt/Q,Nx+1); total_jx = zeros(Nt/Q,Nx+1);
 total_jy = zeros(Nt/Q,Nx+1); total_jz = zeros(Nt/Q,Nx+1);
 total_phi = zeros(Nt/Q,Nx+1); total_ay = zeros(Nt/Q,Nx+1); total_az = zeros(Nt/Q,Nx+1); 

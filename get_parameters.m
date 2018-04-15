@@ -1,10 +1,10 @@
 %% meshes 
-T = 2; Nt = 200; tau = T/Nt;
-L = 15; Nx = 64; h = L/Nx;
+T = 50; Nt = 5000; tau = T/Nt;
+L = 1; Nx = 40; h = L/Nx;
 t_preprocessing = 0;
 
 %% particles
-Ne = 1.2*10^5; me = 1; qe = -1; ve = 0.05; Te = 1;
+Ne = 10^4; me = 1; qe = -1; ve = 0.05; Te = 1;
 Ni = Ne; mi = 400; qi = 1; vi = ve/sqrt(mi*Te); n0  = Ni/L;
 
 %% external fields
@@ -25,11 +25,14 @@ dyn_bc_flag = 2;% 1 - reflect, 2 - periodical
 
 %% calculation parameters
 P = 1; Q = 1;% duty ratio P-particles Q-time
-
+if(mod(Nt,Q)~=0 || mod(Ni,P)~=0)
+    disp('P or Q unacceptable');
+    return
+end
 %% initial phase coordinates distribution
 
-random = 0;
-twostream = 1;
+random = 1;
+twostream = 0;
 weibel = 0;
 
 %% experiment parameters
